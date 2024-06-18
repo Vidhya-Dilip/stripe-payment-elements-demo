@@ -1,26 +1,21 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+<script setup>
+import { onMounted } from "vue";
+import stripePayment from "@/assets/js/utils.js";
+ onMounted(async () => {
+        try{
+            await stripePayment.initStripe();
+            setTimeout(()=>{
+                stripePayment.generateStripePaymentElements();
+            },100)
+        }
+        catch {
+          console.log('error');
+        }
+});
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<template>
+  <div style="width: 350px;margin: 0 auto">
+    <div id="paymentElement"></div>
+  </div>
+</template>
